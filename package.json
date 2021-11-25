@@ -1,21 +1,21 @@
 {
   "name": "react-mjho-picker",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "private": false,
   "babel": {
     "presets": [
       "@babel/preset-react"
     ]
   },
-  "main": "dist/DatePicker.js",
-  "module": "dist/DatePicker.js",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
     "dist",
     "README.md"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/"
+    "url": "https://github.com/MuJungHo/react-pickers"
   },
   "keywords": [
     "react",
@@ -24,7 +24,7 @@
   "author": "Mu Jung Ho",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/"
+    "url": "https://github.com/MuJungHo/react-pickers"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",

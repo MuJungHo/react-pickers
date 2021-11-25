@@ -55,7 +55,7 @@ const DateTimePicker = () => {
   })
   return (
     <div>
-      <p>DateTimePicker</p>
+      <p>Date Picker</p>
       <div style={{
         width: 540,
         height: 360,
