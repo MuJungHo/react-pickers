@@ -68,7 +68,7 @@ const DateTimePicker = () => {
           <div>{`${selected.year}/${selected.month % 12 + 1}/${selected.day}`}</div>
           <div onClick={() => setMonth(month + 1)}>next</div>
         </div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-around', padding: 10 }}>
           {
             weekday.map(day => <div style={{ width: '14%' }} key={day}>{day}</div>)
           }
@@ -76,7 +76,8 @@ const DateTimePicker = () => {
         <div style={{
           display: 'flex',
           flexWrap: 'wrap',
-          flex: '1 1 auto'
+          flex: '1 1 auto', justifyContent: 'space-around',
+          padding: 10
         }}>
           {
             dates.map(date => <DateCell
