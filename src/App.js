@@ -1,5 +1,4 @@
-import DatePicker from './components/DatePicker'
-import TimePicker from './components/TimePicker'
+import { DatePicker, TimePicker } from './publish'
 
 function App() {
   return (
