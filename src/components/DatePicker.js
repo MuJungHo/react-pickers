@@ -65,7 +65,7 @@ const DateTimePicker = () => {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: 10 }}>
           <div onClick={() => setMonth(month - 1)}>last</div>
-          <div>{`${selected.year}/${(selected.month + 1) === 13 ? 1 : (selected.month + 1)}/${selected.day}`}</div>
+          <div>{`${selected.year}/${selected.month % 12 + 1}/${selected.day}`}</div>
           <div onClick={() => setMonth(month + 1)}>next</div>
         </div>
         <div style={{ display: 'flex' }}>
