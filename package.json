@@ -7,8 +7,8 @@
       "@babel/preset-react"
     ]
   },
-  "main": "dist/DateTimePicker.js",
-  "module": "dist/DateTimePicker.js",
+  "main": "dist/DatePicker.js",
+  "module": "dist/DatePicker.js",
   "files": [
     "dist",
     "README.md"
