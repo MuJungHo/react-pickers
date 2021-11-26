@@ -14,5 +14,5 @@ import Picker from 'react-mjho-picker'
 
 ### Demo
 
-[Online Demo](https://mujungho.github.io/react-pickers/) is here!
+Online Demo is [here](https://mujungho.github.io/react-pickers/)!
 
