@@ -11,7 +11,11 @@ const Pointer = ({ point, value, setValue, d, isHour }) => {
         cx={point.x}
         cy={point.y}
         r={20}
-        fill={isHover || isSelected ? "#fff" : "#f5f5f5"}
+        fill={
+          (isHover || isSelected)
+            ? isHour ? "orange" : "aqua"
+            : "#f5f5f5"
+        }
       />
       <text
         onClick={() => setValue(isHour ? point.value : point.value * 5)}
@@ -48,8 +52,8 @@ const TimePicker = () => {
     var hudu = (2 * Math.PI / 360) * 30 * index;
     var x = 200 + Math.sin(hudu) * 150;
     var y = 200 - Math.cos(hudu) * 150;
-    var hx = 200 + Math.sin(hudu) * 100;
-    var hy = 200 - Math.cos(hudu) * 100;
+    var hx = 200 + Math.sin(hudu) * 90;
+    var hy = 200 - Math.cos(hudu) * 90;
     var mx = 200 + Math.sin(hudu) * 120;
     var my = 200 - Math.cos(hudu) * 120;
     return ({
@@ -84,8 +88,8 @@ const TimePicker = () => {
             isHour={isPickHour}
           />)
         }
-        <line x1={points[hour % 12].hx} y1={points[hour % 12].hy} x2={d} y2={d} strokeWidth="3" stroke={isPickHour ? "orange" : "#f5f5f5"} />
-        <line x1={points[Math.floor(minute / 5)].mx} y1={points[Math.floor(minute / 5)].my} x2={d} y2={d} strokeWidth="3" stroke={isPickHour ? "#f5f5f5" : "orange"} />
+        <line x1={points[hour % 12].hx} y1={points[hour % 12].hy} x2={d} y2={d} strokeWidth="5" stroke={isPickHour ? "orange" : "#f5f5f5"} />
+        <line x1={points[Math.floor(minute / 5)].mx} y1={points[Math.floor(minute / 5)].my} x2={d} y2={d} strokeWidth="3" stroke={isPickHour ? "#f5f5f5" : "aqua"} />
         <circle cx={d} cy={d} r="10" fill="#f5f5f5" />
 
       </svg>
