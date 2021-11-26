@@ -1,5 +1,5 @@
 import React from 'react'
-const Pointer = ({ point, value, setValue, d, isHour }) => {
+const Pointer = ({ point, value, setValue, isHour }) => {
   const isSelected = point.value === value
   const [isHover, setHover] = React.useState(false)
   return (
@@ -50,12 +50,12 @@ const TimePicker = () => {
   const d = 200
   const points = [...Array(12).keys()].map(index => {
     var hudu = (2 * Math.PI / 360) * 30 * index;
-    var x = 200 + Math.sin(hudu) * 150;
-    var y = 200 - Math.cos(hudu) * 150;
-    var hx = 200 + Math.sin(hudu) * 90;
-    var hy = 200 - Math.cos(hudu) * 90;
-    var mx = 200 + Math.sin(hudu) * 120;
-    var my = 200 - Math.cos(hudu) * 120;
+    var x = d + Math.sin(hudu) * 150;
+    var y = d - Math.cos(hudu) * 150;
+    var hx = d + Math.sin(hudu) * 90;
+    var hy = d - Math.cos(hudu) * 90;
+    var mx = d + Math.sin(hudu) * 120;
+    var my = d - Math.cos(hudu) * 120;
     return ({
       value: index,
       x,
@@ -70,8 +70,8 @@ const TimePicker = () => {
     <div style={{ width: 540 }}>
       <p>Time Picker</p>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <div>{`${isAM ? 'AM' : 'PM'} ${hour}:${minute}`}</div>
-        <div onClick={() => setPickHour(!isPickHour)}>{isPickHour ? 'To Pick Minute' : 'To Pick Hour'}</div>
+        <div onClick={() => setAM(!isAM)}>{`${isAM ? 'AM' : 'PM'} ${hour}:${minute}`}</div>
+        <div onClick={() => setPickHour(!isPickHour)}>{isPickHour ? 'Pick Minute' : 'Pick Hour'}</div>
       </div>
       <svg
         height="400"
@@ -84,12 +84,11 @@ const TimePicker = () => {
             point={point}
             value={isPickHour ? hour % 12 : Math.floor(minute / 5)}
             setValue={isPickHour ? setHour : setMinute}
-            d={d}
             isHour={isPickHour}
           />)
         }
-        <line x1={points[hour % 12].hx} y1={points[hour % 12].hy} x2={d} y2={d} strokeWidth="5" stroke={isPickHour ? "orange" : "#f5f5f5"} />
-        <line x1={points[Math.floor(minute / 5)].mx} y1={points[Math.floor(minute / 5)].my} x2={d} y2={d} strokeWidth="3" stroke={isPickHour ? "#f5f5f5" : "aqua"} />
+        <line onClick={() => setPickHour(true)} x1={points[hour % 12].hx} y1={points[hour % 12].hy} x2={d} y2={d} strokeWidth="5" stroke={isPickHour ? "orange" : "#f5f5f5"} />
+        <line onClick={() => setPickHour(false)} x1={points[Math.floor(minute / 5)].mx} y1={points[Math.floor(minute / 5)].my} x2={d} y2={d} strokeWidth="3" stroke={isPickHour ? "#f5f5f5" : "aqua"} />
         <circle cx={d} cy={d} r="10" fill="#f5f5f5" />
 
       </svg>
