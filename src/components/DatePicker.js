@@ -1,17 +1,25 @@
 import React from "react";
 const DateCell = props => {
   const { date, selected, setSelected } = props
+  const [isHover, setHover] = React.useState(false)
   const isSelectedDate = selected.year === date.year && selected.month === date.month && selected.day === date.day
   return (
     <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       onClick={() => setSelected({
         year: date.year,
         month: date.month,
         day: date.day,
       })}
       style={{
-        width: '14%',
-        backgroundColor: isSelectedDate ? '#bebebe' : '#ffffff',
+        width: 50,
+        height: 50,
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: isSelectedDate || isHover ? 'cyan' : '#ffffff',
       }}>
       {date.day}
     </div>
@@ -57,7 +65,7 @@ const DateTimePicker = () => {
     <div>
       <p>Date Picker</p>
       <div style={{
-        width: 540,
+        width: 400,
         height: 360,
         border: '1px solid',
         display: 'flex',
@@ -70,7 +78,7 @@ const DateTimePicker = () => {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-around', padding: 10 }}>
           {
-            weekday.map(day => <div style={{ width: '14%' }} key={day}>{day}</div>)
+            weekday.map(day => <div style={{ width: '14%', textAlign: 'center' }} key={day}>{day}</div>)
           }
         </div>
         <div style={{
