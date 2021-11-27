@@ -32,6 +32,15 @@ const ColorBoard = ({ setCoordinate, rgb, barRGB }) => {
     setCoordinate({ x: Math.floor(((newLeft - pointerRadius) / (boardWidth - pointerRadius * 2)) * 100), y: Math.floor((newTop - pointerRadius) / (boardWidth - pointerRadius * 2) * 100) })
     setPosition({ x: newLeft, y: newTop })
   }
+  const selectColor = e => {
+    var target = e.target || e.srcElement,
+      rect = target.getBoundingClientRect(),
+      newLeft = e.clientX - rect.left + pointerRadius,
+      newTop = e.clientY - rect.top + pointerRadius;
+
+    setCoordinate({ x: Math.floor(((newLeft - pointerRadius) / (boardWidth - pointerRadius * 2)) * 100), y: Math.floor((newTop - pointerRadius) / (boardWidth - pointerRadius * 2) * 100) })
+    setPosition({ x: newLeft, y: newTop })
+  }
   return (
     <svg xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -39,14 +48,16 @@ const ColorBoard = ({ setCoordinate, rgb, barRGB }) => {
       height={boardWidth}
       ref={boardRef}
     >
-      <linearGradient id="lg1" x1="100%" x2="0%">
-        <stop offset="0%" stopColor={`rgba(${barRGB.r}, ${barRGB.g}, ${barRGB.b}, 1)`} />
-        <stop offset="100%" stopColor="rgba(255, 255, 255, 1)" />
-      </linearGradient>
-      <linearGradient id="lg2" x1="100%" y1="100%" >
-        <stop offset="0%" stopColor="rgba(0, 0, 0 , 1)" />
-        <stop offset="100%" stopColor={`rgba(0, 0, 0, 0)`} />
-      </linearGradient>
+      <defs>
+        <linearGradient id="lg1" x1="100%" x2="0%">
+          <stop offset="0%" stopColor={`rgba(${barRGB.r}, ${barRGB.g}, ${barRGB.b}, 1)`} />
+          <stop offset="100%" stopColor="rgba(255, 255, 255, 1)" />
+        </linearGradient>
+        <linearGradient id="lg2" x1="100%" y1="100%" >
+          <stop offset="0%" stopColor="rgba(0, 0, 0 , 1)" />
+          <stop offset="100%" stopColor={`rgba(0, 0, 0, 0)`} />
+        </linearGradient>
+      </defs>
       <rect
         strokeWidth="3"
         stroke="black"
@@ -56,6 +67,7 @@ const ColorBoard = ({ setCoordinate, rgb, barRGB }) => {
       <rect
         strokeWidth="3"
         stroke="black"
+        onClick={selectColor}
         width={boardWidth - pointerRadius * 2}
         height={boardWidth - pointerRadius * 2} x={pointerRadius} y={pointerRadius} fill="url(#lg2)"
       />
@@ -100,6 +112,11 @@ const ColorBar = ({ setBarRatio, barRGB }) => {
     setBarRatio(Math.floor(((newLeft - pointerRadius) / (barWidth - pointerRadius * 2)) * 1000) / 10)
     setPosition({ x: newLeft, y: position.y })
   }
+  const selectColor = e => {
+    var newLeft = e.clientX - pointerRadius * 3
+    setBarRatio(Math.floor(((newLeft - pointerRadius) / (barWidth - pointerRadius * 2)) * 1000) / 10)
+    setPosition({ x: newLeft, y: position.y })
+  }
   return (
     <svg xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -120,12 +137,18 @@ const ColorBar = ({ setBarRatio, barRGB }) => {
       </defs>
       <rect
         width={barWidth - pointerRadius * 2}
+        onClick={selectColor}
         height={30} x={pointerRadius} y="0" fill="url(#lg3)"
       />
       <circle
         strokeWidth="3"
         stroke="black"
-        cx={position.x} cy={position.y} r={pointerRadius - 3} fill={`rgb(${barRGB.r}, ${barRGB.g}, ${barRGB.b})`} onMouseDown={startDrag} />
+        cx={position.x}
+        cy={position.y}
+        r={pointerRadius - 3}
+        fill={`rgb(${barRGB.r}, ${barRGB.g}, ${barRGB.b})`}
+        onMouseDown={startDrag}
+      />
     </svg>
   )
 }
@@ -202,14 +225,15 @@ const ColorPicker = () => {
       g: Math.floor(yg * (100 - coordinate.y) / 100),
       b: Math.floor(yb * (100 - coordinate.y) / 100),
     })
-  }, [coordinate])
+  }, [coordinate, barRGB])
   return (
-    <div style={{ border: '1px solid', width: 400, height: 600 }}>
+    <div style={{ userSelect: 'none' }}>
       <p>Color Picker</p>
       <p>{`r: ${rgb.r}, g: ${rgb.g}, b: ${rgb.b}`}</p>
-      <p>{`basic r: ${barRGB.r}, g: ${barRGB.g}, b: ${barRGB.b}`}</p>
-      <ColorBoard setCoordinate={setCoordinate} rgb={rgb} barRGB={barRGB} />
-      <ColorBar setBarRatio={setBarRatio} barRGB={barRGB} />
+      <div style={{ border: '1px solid', width: 300, padding: 20 }}>
+        <ColorBoard setCoordinate={setCoordinate} rgb={rgb} barRGB={barRGB} />
+        <ColorBar setBarRatio={setBarRatio} barRGB={barRGB} />
+      </div>
     </div>
   )
 }

@@ -6,8 +6,8 @@ function App() {
   return (
     <div>
       My Pickers:
-      {/* <DatePicker />
-      <TimePicker /> */}
+      <DatePicker />
+      <TimePicker />
       <ColorPicker />
     </div>
   );
