@@ -7,10 +7,24 @@ Run the following command to install this package.
 npm install react-mjho-picker
 ```
 
-To import the library.
-```bash
-import Picker from 'react-mjho-picker'
+### Configuration
+The most basic use of the Pickers can be described with:
 ```
+import React, { useState } from "react";
+import { DatePicker, TimePicker, ColorPicker } from "react-mjho-picker";
+
+const Example = () => {
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState(new Date());
+  const [color, setColor] = useState('#ff0000');
+  return (
+    <DatePicker value={date} onChange={date => setDate(date)} />
+    <TimePicker value={time} onChange={time => setTime(time)} />
+    <ColorPicker value={coloe} onChange={color => setColor(color)} />
+  );
+};
+```
+
 
 ### Demo
 
