@@ -1,4 +1,38 @@
 import React from 'react'
+
+const hexToRgb = hex => {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : null;
+}
+const componentToHex = c => {
+  var hex = c.toString(16);
+  return hex.length == 1 ? "0" + hex : hex;
+}
+
+const rgbToHex = (r, g, b) => {
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
+
+const rgbToRatio = ({ r, g, b }) => {
+  if (r === 255 && b === 0) { //0 ~ 16.6
+    return g / 255 * 16.6 + 0
+  } else if (g === 255 && b === 0) { //16.6 ~ 33.2
+    return r / 255 * 16.6 + 16.6
+  } else if (g === 255 && r === 0) { //33.2 ~ 49.8
+    return b / 255 * 16.6 + 33.2
+  } else if (b === 255 && r === 0) { //49.8 ~ 66.4
+    return g / 255 * 16.6 + 49.8
+  } else if (b === 255 && g === 0) { //66.4 ~ 83
+    return r / 255 * 16.6 + 66.4
+  } else if (r === 255 && g === 0) { //83 ~ 100
+    return g / 255 * 16.6 + 83
+  }
+  return 0
+}
 const ColorBoard = ({ setCoordinate, rgb, barRGB }) => {
   const boardRef = React.useRef()
   const [start, setStart] = React.useState(null)
@@ -81,16 +115,16 @@ const ColorBoard = ({ setCoordinate, rgb, barRGB }) => {
     </svg >
   )
 }
-const ColorBar = ({ setBarRatio, barRGB }) => {
+const ColorBar = ({ setBarRatio, barRGB, barRatio }) => {
+  const barWidth = 300
+  const pointerRadius = 10
   const boardRef = React.useRef()
   const [start, setStart] = React.useState(null)
   const [position, setPosition] = React.useState({
-    x: 10,
+    x: 10 + 300 * barRatio / 100,
     y: 15
   })
 
-  const barWidth = 300
-  const pointerRadius = 10
   React.useEffect(() => {
     if (JSON.stringify(start) !== JSON.stringify({}) && start !== null) {
       boardRef.current.addEventListener('mousemove', drag)
@@ -152,22 +186,27 @@ const ColorBar = ({ setBarRatio, barRGB }) => {
     </svg>
   )
 }
-const ColorPicker = () => {
+const ColorPicker = ({ value, onChange }) => {
   const [coordinate, setCoordinate] = React.useState({
     x: 100,
     y: 0
   })
-  const [barRatio, setBarRatio] = React.useState(0)
+  const [barRatio, setBarRatio] = React.useState(rgbToRatio({
+    r: hexToRgb(value).r,
+    g: hexToRgb(value).g,
+    b: hexToRgb(value).b
+  }))
   const [barRGB, setBarRGB] = React.useState({
-    r: 255,
-    g: 0,
-    b: 0
+    r: hexToRgb(value).r,
+    g: hexToRgb(value).g,
+    b: hexToRgb(value).b
   })
   const [rgb, setRGB] = React.useState({
-    r: 255,
-    g: 0,
-    b: 0
+    r: hexToRgb(value).r,
+    g: hexToRgb(value).g,
+    b: hexToRgb(value).b
   })
+
   React.useEffect(() => {
     if (barRatio >= 0 && 16.6 > barRatio) {
       setBarRGB({
@@ -226,13 +265,17 @@ const ColorPicker = () => {
       b: Math.floor(yb * (100 - coordinate.y) / 100),
     })
   }, [coordinate, barRGB])
+  React.useEffect(() => {
+    onChange(rgbToHex(rgb.r, rgb.g, rgb.b))
+  }, [rgb])
   return (
     <div style={{ userSelect: 'none' }}>
       <p>Color Picker</p>
       <p>{`r: ${rgb.r}, g: ${rgb.g}, b: ${rgb.b}`}</p>
+      <p>{`hex: ${rgbToHex(rgb.r, rgb.g, rgb.b)}`}</p>
       <div style={{ border: '1px solid', width: 300, padding: 20 }}>
         <ColorBoard setCoordinate={setCoordinate} rgb={rgb} barRGB={barRGB} />
-        <ColorBar setBarRatio={setBarRatio} barRGB={barRGB} />
+        <ColorBar setBarRatio={setBarRatio} barRGB={barRGB} barRatio={barRatio} />
       </div>
     </div>
   )

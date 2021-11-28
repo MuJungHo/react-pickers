@@ -1,17 +1,20 @@
 import React from "react";
 const DateCell = props => {
-  const { date, selected, setSelected } = props
+  const { date, selected, setSelected, onChange } = props
   const [isHover, setHover] = React.useState(false)
   const isSelectedDate = selected.year === date.year && selected.month === date.month && selected.day === date.day
   return (
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={() => setSelected({
-        year: date.year,
-        month: date.month,
-        day: date.day,
-      })}
+      onClick={() => {
+        setSelected({
+          year: date.year,
+          month: date.month,
+          day: date.day,
+        })
+        onChange(new Date(date.year, date.month, date.day))
+      }}
       style={{
         width: 50,
         height: 50,
@@ -25,8 +28,9 @@ const DateCell = props => {
     </div>
   );
 }
-const DateTimePicker = () => {
-  const dt = new Date()
+const DateTimePicker = ({ value, onChange }) => {
+
+  const dt = value || new Date()
   const [year, setYear] = React.useState(dt.getFullYear())
   const [month, setMonth] = React.useState(dt.getMonth())
   const [day, setDay] = React.useState(dt.getDate())
@@ -37,6 +41,7 @@ const DateTimePicker = () => {
   const currMonthDays = new Date(year, (month + 1), 0).getDate()
   const lastMonthDays = new Date(year, month, 0).getDate()
   const weekday = ['Sun', 'Mon', 'Tue', 'Wen', 'Thr', 'Fri', 'Sat']
+
   const dates = [...Array(35).keys()].map(index => {
     if (index < currMonthFirstDay) {
       return {
@@ -93,6 +98,7 @@ const DateTimePicker = () => {
               date={date}
               selected={selected}
               setSelected={setSelected}
+              onChange={onChange}
             />)
           }
         </div>
