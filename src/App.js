@@ -6,9 +6,9 @@ function App() {
   return (
     <div>
       My Pickers:
+      <ColorPicker value={'#ff0000'} onChange={color => console.log(color)}/>
       <DatePicker value={new Date()} onChange={date => console.log(date)}/>
       <TimePicker value={new Date()} onChange={time => console.log(time)}/>
-      <ColorPicker value={'#ff0000'} onChange={color => console.log(color)}/>
     </div>
   );
 }
