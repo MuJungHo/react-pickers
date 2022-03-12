@@ -33,7 +33,7 @@ const rgbToRatio = ({ r, g, b }) => {
   }
   return 0
 }
-const ColorBoard = ({ setCoordinate, rgb, barRGB }) => {
+const ColorBoard = ({ setCoordinate, rgb, barRGB, onChange }) => {
   const boardRef = React.useRef()
   const [start, setStart] = React.useState(null)
   const [position, setPosition] = React.useState({
@@ -74,6 +74,7 @@ const ColorBoard = ({ setCoordinate, rgb, barRGB }) => {
 
     setCoordinate({ x: Math.floor(((newLeft - pointerRadius) / (boardWidth - pointerRadius * 2)) * 100), y: Math.floor((newTop - pointerRadius) / (boardWidth - pointerRadius * 2) * 100) })
     setPosition({ x: newLeft, y: newTop })
+    onChange(rgbToHex(rgb.r, rgb.g, rgb.b))
   }
   return (
     <svg xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +116,7 @@ const ColorBoard = ({ setCoordinate, rgb, barRGB }) => {
     </svg >
   )
 }
-const ColorBar = ({ setBarRatio, barRGB, barRatio }) => {
+const ColorBar = ({ setBarRatio, barRGB, barRatio, rgb, onChange }) => {
   const barWidth = 300
   const pointerRadius = 10
   const boardRef = React.useRef()
@@ -150,6 +151,7 @@ const ColorBar = ({ setBarRatio, barRGB, barRatio }) => {
     var newLeft = e.clientX - pointerRadius * 3
     setBarRatio(Math.floor(((newLeft - pointerRadius) / (barWidth - pointerRadius * 2)) * 1000) / 10)
     setPosition({ x: newLeft, y: position.y })
+    onChange(rgbToHex(rgb.r, rgb.g, rgb.b))
   }
   return (
     <svg xmlns="http://www.w3.org/2000/svg"
@@ -265,17 +267,17 @@ const ColorPicker = ({ value, onChange }) => {
       b: Math.floor(yb * (100 - coordinate.y) / 100),
     })
   }, [coordinate, barRGB])
-  React.useEffect(() => {
-    onChange(rgbToHex(rgb.r, rgb.g, rgb.b))
-  }, [rgb])
+  // React.useEffect(() => {
+  //   onChange(rgbToHex(rgb.r, rgb.g, rgb.b))
+  // }, [rgb])
   return (
     <div style={{ userSelect: 'none' }}>
       <p>Color Picker</p>
       <p>{`r: ${rgb.r}, g: ${rgb.g}, b: ${rgb.b}`}</p>
       <p>{`hex: ${rgbToHex(rgb.r, rgb.g, rgb.b)}`}</p>
       <div style={{ border: '1px solid', width: 300, padding: 20 }}>
-        <ColorBoard setCoordinate={setCoordinate} rgb={rgb} barRGB={barRGB} />
-        <ColorBar setBarRatio={setBarRatio} barRGB={barRGB} barRatio={barRatio} />
+        <ColorBoard setCoordinate={setCoordinate} rgb={rgb} barRGB={barRGB} onChange={onChange}/>
+        <ColorBar setBarRatio={setBarRatio} barRGB={barRGB} barRatio={barRatio} rgb={rgb} onChange={onChange}/>
       </div>
     </div>
   )
