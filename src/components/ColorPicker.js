@@ -272,12 +272,10 @@ const ColorPicker = ({ value, onChange }) => {
   // }, [rgb])
   return (
     <div style={{ userSelect: 'none' }}>
-      <p>Color Picker</p>
-      <p>{`r: ${rgb.r}, g: ${rgb.g}, b: ${rgb.b}`}</p>
-      <p>{`hex: ${rgbToHex(rgb.r, rgb.g, rgb.b)}`}</p>
-      <div style={{ border: '1px solid', width: 300, padding: 20 }}>
-        <ColorBoard setCoordinate={setCoordinate} rgb={rgb} barRGB={barRGB} onChange={onChange}/>
-        <ColorBar setBarRatio={setBarRatio} barRGB={barRGB} barRatio={barRatio} rgb={rgb} onChange={onChange}/>
+      <input style={{ marginBottom: 16 }} type="text" value={rgbToHex(rgb.r, rgb.g, rgb.b)} readOnly />
+      <div style={{ border: '1px solid', width: 300, padding: 16 }}>
+        <ColorBoard setCoordinate={setCoordinate} rgb={rgb} barRGB={barRGB} onChange={onChange} />
+        <ColorBar setBarRatio={setBarRatio} barRGB={barRGB} barRatio={barRatio} rgb={rgb} onChange={onChange} />
       </div>
     </div>
   )
