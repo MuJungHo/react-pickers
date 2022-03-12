@@ -28,5 +28,7 @@ const Example = () => {
 
 ### Demo
 
+See more package information. [link](https://www.npmjs.com/package/react-mjho-picker)
+
 Online Demo is [here](https://mujungho.github.io/react-pickers/)!
 
